@@ -5,28 +5,37 @@ from datetime import datetime
 from dateutil import relativedelta
 
 def calculations():
-    service_in_months = 0
+    try:
+        dob = (datetime.strptime(dobentry.get(), "%d/%m/%Y")).date()
+        doj = (datetime.strptime(dojentry.get(), "%d/%m/%Y")).date()
+        dor = (datetime.strptime(retentry.get(), "%d/%m/%Y")).date()
+        service_in_months = (dor.year - doj.year) * 12 + (dor.month - doj.month)
 
-    dob = (datetime.strptime(dobentry.get(), "%d/%m/%Y")).date()
-    doj = (datetime.strptime(dojentry.get(), "%d/%m/%Y")).date()
-    dor = (datetime.strptime(retentry.get(), "%d/%m/%Y")).date()
-    service_in_months = (dor.year - doj.year) * 12 + (dor.month - doj.month)
-    print(service_in_months)
-    service_in_half_years = 0
-    if service_in_months % 6 >= 3:
-        service_in_half_years = (service_in_months // 6) + 1
-    else:
-        service_in_half_years = service_in_months // 6
-    print(service_in_half_years)
-    basic = int(basicentry.get())
-    pension = (basic / 2) * (service_in_half_years / 60)
-    print(basic)
-    print(int(pension))
-    # age = int(dor - dob)
-    # nxtbdage = int(age + 1)
-    #print(service, age, nxtbdage)
-    # display = "no coding done to calculate"
-    # mbox.showinfo("  ", display.title())
+        if service_in_months % 6 >= 3:
+            service_in_half_years = (service_in_months // 6) + 1
+        else:
+            service_in_half_years = service_in_months // 6
+
+    except ValueError:
+        mbox.showinfo("Error", "Enter Dates in dd/mm/yyyy formate")
+
+    try:
+        basic = int(basicentry.get())
+        pension = int((basic / 2) * (service_in_half_years / 60))
+        da = int(daentry.get())
+        hra = int(hraentry.get())
+        cca = int(ccaentry.get())
+        ma = int(maentry.get())
+        ret_month = dor.month
+        ds_in_months = {1: 31, 2: 28, 3: 31, 4: 31, 5: 31, 6: 31, 7: 31, 8: 31, 9: 31, 10: 31, 11: 31, 12: 31}
+        pay_per_day = (basic + da + hra + cca + ma)/ds_in_months[ret_month]
+        el_encash = int(240 * pay_per_day)
+        mbox.showinfo("message", f"your pension is {pension} \n your EL Encashment is {el_encash}")
+        age = (dor.year - dob.year)
+
+    except ValueError:
+        mbox.showinfo("Error", "Enter integer values for basic, DA etc")
+
 
 entryWin = Tk()
 label_font = font.Font(size=16)
