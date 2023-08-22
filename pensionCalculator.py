@@ -44,22 +44,42 @@ def calculations():
     except ValueError:
         mbox.showinfo("Error", "Check whether values for basic, DA etc are integer values and date boxes are in dd/mm/yyyy format")
 
+# def delete_rwindow():
+#     print(150)
+#     child_window.quit()
+
+
 
 def result_window(results):
-    result_window = Toplevel(entryWin)
-    result_window.title("Result Window")
-    result_window.geometry("400x200")
-    result_window.configure(background="light green")
+    child_window = Toplevel(entryWin)
+    child_window.title("Result Window")
+    child_window.geometry("400x300")
+    child_window.configure(background="light green")
+    pensionlbl = Label(child_window, text="Full Pension:", font=label_font, fg="blue", bg="light green", padx=10, pady=10)
+    pensionreslt = Label(child_window, text=results[0], font=label_font, fg="blue", bg="light green", padx=10, pady=10)
+    commutlbl = Label(child_window, text="Commutation Amount:", font=label_font, fg="blue", bg="light green", padx=10, pady=10)
+    commutreslt = Label(child_window, text=results[1], font=label_font, fg="blue", bg="light green", padx=10, pady=10)
+    pafcommutlbl = Label(child_window, text="Pension after Commutation:", font=label_font, fg="blue", bg="light green", padx=10, pady=10)
+    pafcommutreslt = Label(child_window, text=results[2], font=label_font, fg="blue", bg="light green", padx=10, pady=10)
+    elencashlbl = Label(child_window, text="EL Encashment:", font=label_font, fg="blue", bg="light green", padx=10, pady=10)
+    elencashreslt = Label(child_window, text=results[3], font=label_font, fg="blue", bg="light green", padx=10, pady=10)
 
+    pensionlbl.grid(row=0, column=0, sticky=W)
+    pensionreslt.grid(row=0, column=1)
+    commutlbl.grid(row=1, column=0, sticky=W)
+    commutreslt.grid(row=1, column=1)
+    pafcommutlbl.grid(row=2, column=0, sticky=W)
+    pafcommutreslt.grid(row=2, column=1)
+    elencashlbl.grid(row=3, column=0, sticky=W)
+    elencashreslt.grid(row=3, column=1)
     def delete_rwindow():
-        result_window.destroy()
+        child_window.destroy()
 
-    result_labels = ["Full Pension:", "Commutation Amount:", "Pension after Commutation", "EL Encashment"]
-    for idx, result in enumerate(results):
-        result_label = Label(result_window, font=("Areal", 16), bg="light green", fg="blue", text=f"{result_labels[idx]} {result}")
-        result_label.pack()
-    okButton = Button(result_window, text="OK", width=5, height=1, font=label_font, fg="blue", bg="red",command=delete_rwindow)
-    okButton.pack()
+    okButton = Button(child_window, text="OK", width=5, height=1, font=label_font, fg="blue", bg="red",
+                      command=delete_rwindow)
+    okButton.grid(row=4, columnspan=2)
+
+
 
 
 entryWin = Tk()
@@ -67,8 +87,6 @@ label_font = font.Font(size=16)
 entryWin.geometry('400x600')
 entryWin.title("Entry window")
 entryWin.configure(background="light green")
-# entryWin.minsize(400, 550)
-# entryWin.maxsize(400, 550)
 ewinTitle = Label(entryWin, text="Enter Details", font=("Arial", 16), fg="blue", bg="light green")
 ewinTitle.grid(columnspan = 2)
 doblabel = Label(entryWin, text="Date of Birth ", font=label_font, fg="blue", bg="light green", padx=10, pady=10)
